@@ -11,6 +11,9 @@ RUN conda env create -f environment.yml
 RUN echo "source activate geofabrics" > ~/.bashrc
 ENV PATH /opt/conda/envs/geofabrics/bin:$PATH
 
+# Set the PROJ_LIB environment variable
+ENV PROJ_LIB /opt/conda/envs/geofabrics/share/proj
+
 # Install geofabrics
 RUN pip install geofabrics
 
