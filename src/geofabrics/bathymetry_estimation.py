@@ -511,6 +511,13 @@ class InterpolateMeasuredElevations:
         self.measured_sections = geopandas.read_file(measured_sections_file)
         self.cross_section_spacing = cross_section_spacing
         self.crs = crs
+
+        # Geopandas can occasionally create multi-line strings when reading a file, simplify with
+        # a tolerance of zero to convert back to line strings
+        self.measured_sections["geometry"] = self.measured_sections["geometry"].apply(
+            lambda x: x.simplify(0)
+        )
+
         self.check_valid_inputs()
 
     def check_valid_inputs(self):
