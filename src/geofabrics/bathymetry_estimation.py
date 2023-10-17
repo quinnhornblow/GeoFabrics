@@ -615,6 +615,14 @@ class InterpolateMeasuredElevations:
         )
         # Clip measured sections
         self.measured_sections = self.measured_sections.clip(polygon).sort_index()
+        self.measured_sections["geometry"] = self.measured_sections["geometry"].apply(
+            lambda x: x.simplify(0)
+        )
+        print(
+            self.measured_sections.loc[
+                self.measured_sections.geometry.type != "LineString"
+            ]
+        )
         if not (self.measured_sections.geometry.type == "LineString").all():
             raise Exception(
                 "The individual sections of the self.measured_sections must "
